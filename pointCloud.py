@@ -20,7 +20,7 @@ from scipy import optimize
 
 class PointCloud:
     def __init__(self, filename = 'trunk30b.ply' ):
-       
+        self.path = "C:/Users/johnk/Documents/triumph/pointClouds/"
         self.df = self.ReadPly(filename)
         #self.df = self.Center(self.df)
         #self.df.hist()         
@@ -74,7 +74,8 @@ class PointCloud:
 
     
     def ReadFile_o3d(self)  :
-        pcd = o3d.io.read_point_cloud('C:/Users/johnk/Documents/triumph/pointClouds/trunk2.ply')
+        filename = "trun2.ply"
+        pcd = o3d.io.read_point_cloud(self.path+filename)
         return pcd
     
     def DatFrameToPoints_o3d(self, df):
@@ -91,7 +92,7 @@ class PointCloud:
         return pc
         
     def ReadPly(self,filename="trunk.ply"):
-        path = 'C:/Users/johnk/Documents/triumph/pointClouds/'
+        path = self.path
         v, f, n, c = pcu.load_mesh_vfnc(path+filename)
         df1 = pd.DataFrame(np.squeeze(v), columns=['X', 'Y', 'Z'])
         df2 = pd.DataFrame(np.squeeze(c), columns=['R', 'G', 'B', 'A'])
@@ -137,7 +138,7 @@ class PointCloud:
 
         mesh = meshio.Mesh(points.tolist(),cells)  #https://github.com/nschloe/meshio
         
-        meshio.write_points_cells("C:/Users/johnk/Documents/triumph/pointClouds/foo.vtk", points.tolist(), cells)
+        meshio.write_points_cells(self.path+"foo.vtk", points.tolist(), cells)
         
 
     def Ransac(self):
